@@ -160,8 +160,11 @@ void CPhantomBigDlg::View_routine(void)
 	int i;
 	IplImage *img = 0;
 	CvPoint pt1,pt2,center;
-	int irandom;
 	double theta;
+
+	CvFont font;
+	cvInitFont(&font, CV_FONT_HERSHEY_TRIPLEX, 1, 1);
+	char buff[200];
 
 	img = cvCreateImage (cvSize (1000, 1000), IPL_DEPTH_8U, 3);
 	center.x = 500;	center.y = 500;
@@ -169,64 +172,57 @@ void CPhantomBigDlg::View_routine(void)
 	double pi = 3.14159265359;
 	while(1)
 	{
-		if (animation_flag)
+		switch(target_count)
 		{
-			pt1.x = 500;	pt1.y = 500;
-			switch(target_count)
-			{
-				case 1:	theta = 0;					break; 	// 0 deg
-				case 2:	theta = 0.7853981633974483;	break;	// 45 deg
-				case 3:	theta = 1.570796326794897; 	break; 	// 90 deg
-				case 4:	theta =	2.356194490192345;	break; 	// 135 deg
-				case 5:	theta = 3.141592653589793;	break; 	// 180 deg
-				case 6:	theta = 3.926990816987241;	break; 	// 225 deg
-				case 7:	theta =	4.71238898038469;	break; 	// 270 deg
-				case 8:	theta = 5.497787143782138;	break; 	// 315 deg
-					/*
-				case 9: theta = 22.5*pi/180;		break;
-				case 10: theta = 67.5*pi/180;		break;
-				case 11: theta = 112.5*pi/180;		break;
-				case 12: theta = 157.5*pi/180;		break;
-				case 13: theta = 202.5*pi/180;		break;
-				case 14: theta = 247.5*pi/180;		break;
-				case 15: theta = 292.5*pi/180;		break;
-				case 16: theta = 337.5*pi/180;		break;
-				*/
-				default:
-				break;
-			}
-			pt1.x = 400*cos(theta);		pt1.y = 400*sin(theta);
-
-			for (int j = 0; j <= 500; ++j)
-			{
-				std::ostringstream outstream;
-				pt2.x = 500 + pt1.x*0.002*j;	pt2.y = 500 + pt1.y*0.002*j;
-				outstream << target_count << " ";
-				outstream << pt2.x << " "; 
-				outstream << 500 - pt1.y*0.002*j << " "; 
-				for (int i = 0; i < 3; ++i)	outstream << 500 + mst.position[i]*2 << " "; 
-				std::string str = outstream.str();
-				log_data.writeLog(str);
-
-				cvZero (img);
-				cvCircle(img, pt2, 10, CV_RGB(0,255,0));
-				cvCircle(img, center, 10, CV_RGB(0,0,255));
-				cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
-				cvShowImage ("Drawing", img);
-				cvWaitKey (5);
-			}
-			animation_flag = false;
+			case 15:theta = 0;					break;
+			case 7:	theta = 0.7853981633974483;	break;
+			case 13:theta = 1.570796326794897; 	break;
+			case 3:	theta =	2.356194490192345;	break;
+			case 11:theta = 3.141592653589793;	break; 
+			case 1:	theta = 3.926990816987241;	break;
+			case 9:	theta =	4.71238898038469;	break;
+			case 5:	theta = 5.497787143782138;	break;
+			default:
+			break;
+		}
+		if (target_count < 1)
+		{
+			pt1.x = 500;		pt1.y = 500;
 		}
 		else
 		{
-			pt2.x = 500 + mst.position[0]*2;	pt2.y = 500 - mst.position[1]*2;
-			cvZero (img);
-			cvCircle(img, pt2, 10, CV_RGB(0,255,0));
-			cvCircle(img, center, 10, CV_RGB(255,0,0));
-			cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
-			cvShowImage ("Drawing", img);
-			cvWaitKey (10);
+			pt1.x = 500+400*cos(theta);		pt1.y = 500+400*sin(theta);
 		}
+
+		cvZero (img);
+		cvCircle(img, pt1, 10, CV_RGB(0,255,0));
+		cvCircle(img, center, 10, CV_RGB(255,0,0));
+
+		if (target_count%2 == 0 && target_count != 0)
+		{
+			if (/* condition */)
+			{
+				/* code */
+			}
+		}
+
+		if (!first_bnt)
+		{
+			sprintf(buff, "x:%f",mst.position[0]);
+			cvPutText(img, buff,cvPoint(700,50),&font, CV_RGB(255,0,0));
+			sprintf(buff, "y:%f",mst.position[1]);
+			cvPutText(img, buff,cvPoint(700,100),&font, CV_RGB(255,0,0));
+			sprintf(buff, "z:%f",mst.position[2]);
+			cvPutText(img, buff,cvPoint(700,150),&font, CV_RGB(255,0,0));
+		}
+
+		sprintf(buff, "%d",routine_count);
+		cvPutText(img, buff,cvPoint(100,50),&font, CV_RGB(255,0,0));
+
+		cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
+		cvShowImage ("Drawing", img);
+		cvWaitKey (100);
+		
 	}
 }
 
