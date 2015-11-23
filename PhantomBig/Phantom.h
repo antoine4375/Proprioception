@@ -13,7 +13,6 @@
 #include <random>
 
 #include <sstream>
-#include "LogerMsg.h"
 
 #define K_FEEDBACK		0.2
 #define DEVICE_NAME_1 "BIG"
@@ -34,10 +33,11 @@ int omni_cnt;
 int m1Buttons;
 PACK mst;
 
+
+bool animation_flag;
 bool first_bnt;
 bool button_flag;
 int target_count;
-int routine_count;
 
 HDCallbackCode HDCALLBACK DeviceCalibrate(void *pUserData);
 HDCallbackCode HDCALLBACK PhantomDevice(void *pUserData);
@@ -46,8 +46,6 @@ void Omni_Calibrate(void);
 void Omni_Init(void);
 void Omni_Start(void);
 void LogData();
-
-LogerMsg log_data;
 
 void Omni_Init(void)
 {
@@ -69,10 +67,10 @@ void Omni_Init(void)
 
     omni_cnt = 0;
     Phantom_Started = false;
+    animation_flag = false;
     first_bnt = false;
     button_flag = false;
     target_count = 0;
-    routine_count = 1;
 }
 
 void Omni_Calibrate(void)
@@ -129,31 +127,18 @@ inline void Phantom1(){
 	{
 		if (!button_flag)
 		{	
+			button_flag = true;
+
+			animation_flag = true;
+			target_count++;
+			if (target_count > 8)
+			{
+				target_count = 1;
+			}
 			if (!first_bnt)
 			{
 				first_bnt = true;
-				for (int i = 0; i < 3; ++i)	init_position[i] = mst.prev[i];
-			}
-		}
-	}
-	
-	for (int i = 0; i < 3; ++i)	mst.prev[i]=mst.position[i];
-					
-	hdGetDoublev(HD_CURRENT_POSITION,mst.position);
-
-	for (int i = 0; i < 3; ++i)	mst.position[i]-=init_position[i];
-
-	if (m1Buttons && HD_DEVICE_BUTTON_1)
-	{
-		if (!button_flag)
-		{
-			button_flag = true;
-			LogData();
-			target_count++;
-			if (target_count > 16)
-			{
-				target_count = 0;
-				routine_count++;
+				for (int i = 0; i < 3; ++i)	init_position[i] = mst.position[i];
 			}
 		}
 	}
@@ -165,6 +150,12 @@ inline void Phantom1(){
 		}
 	}
 
+	for (int i = 0; i < 3; ++i)	mst.prev[i]=mst.position[i];
+					
+	hdGetDoublev(HD_CURRENT_POSITION,mst.position);
+
+	for (int i = 0; i < 3; ++i)	mst.position[i]-=init_position[i];
+
 	mst.force[2] = -K_FEEDBACK*mst.position[2];
 
 	if (first_bnt)
@@ -175,11 +166,3 @@ inline void Phantom1(){
 	hdEndFrame(hdGetCurrentDevice());
 }
 
-void LogData()
-{
-	std::ostringstream outstream;
-	outstream << target_count << " ";
-	for (int i = 0; i < 3; ++i)	outstream << mst.position[i] << " "; 
-	std::string str = outstream.str();
-	log_data.writeLog(str);
-}
