@@ -185,6 +185,9 @@ void CPhantomBigDlg::View_routine(void)
 			default:
 			break;
 		}
+		
+		cvZero (img);
+
 		if (target_count < 1)
 		{
 			pt1.x = 500;		pt1.y = 500;
@@ -194,15 +197,23 @@ void CPhantomBigDlg::View_routine(void)
 			pt1.x = 500+400*cos(theta);		pt1.y = 500+400*sin(theta);
 		}
 
-		cvZero (img);
-		cvCircle(img, pt1, 10, CV_RGB(0,255,0));
+		if (target_count %2 == 1)
+		{
+			cvCircle(img, pt1, 10, CV_RGB(0,255,0));
+		}
+		
 		cvCircle(img, center, 10, CV_RGB(255,0,0));
 
-		if (target_count%2 == 0 && target_count != 0)
+		if (target_count%2 == 0)
 		{
-			if (/* condition */)
+			if (mst.position[0] > -100 && mst.position[0] < 100)
 			{
-				/* code */
+				if (mst.position[1] > -100 && mst.position[1] < 100)
+				{
+					pt2.x = mst.position[0]+500;
+					pt2.y = -mst.position[1]+500;
+					cvCircle(img, pt2, 10, CV_RGB(0,255,0));
+				}
 			}
 		}
 
@@ -218,6 +229,9 @@ void CPhantomBigDlg::View_routine(void)
 
 		sprintf(buff, "%d",routine_count);
 		cvPutText(img, buff,cvPoint(100,50),&font, CV_RGB(255,0,0));
+
+		sprintf(buff, "%d",target_count);
+		cvPutText(img, buff,cvPoint(100,100),&font, CV_RGB(255,0,0));
 
 		cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
 		cvShowImage ("Drawing", img);
@@ -248,13 +262,4 @@ void CPhantomBigDlg::OnDestroy()
 
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 	View_thread.join();
-}
-
-void CPhantomBigDlg::LogData()
-{
-	std::ostringstream outstream;
-	outstream << target_count << " ";
-	for (int i = 0; i < 3; ++i)	outstream << mst.position[i] << " "; 
-	std::string str = outstream.str();
-	log_data.writeLog(str);
 }

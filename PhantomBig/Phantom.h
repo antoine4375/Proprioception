@@ -148,7 +148,8 @@ inline void Phantom1(){
 		if (!button_flag)
 		{
 			button_flag = true;
-			LogData();
+			if (target_count != 0)	LogData();
+			
 			target_count++;
 			if (target_count > 16)
 			{
