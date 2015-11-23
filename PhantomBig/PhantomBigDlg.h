@@ -11,7 +11,7 @@
 #include <boost/shared_ptr.hpp>
 #include <opencv\highgui.h>
 #include <opencv\cv.h>
-#include "LogerMsg.h"
+// #include "LogerMsg.h"
 
 #include "afxwin.h"
 #include "spline.h"
@@ -29,10 +29,10 @@ public:
 
 	boost::thread View_thread;
 	boost::thread Phantom_thread;
-	LogerMsg log_data;
+	// LogerMsg log_data;
 
 	void View_routine(void);
-	void LogData();
+	// void LogData();
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 지원입니다.
