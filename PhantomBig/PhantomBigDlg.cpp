@@ -67,6 +67,7 @@ BEGIN_MESSAGE_MAP(CPhantomBigDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_PHANTOM_BNT, &CPhantomBigDlg::OnBnClickedPhantomBnt)
 	ON_BN_CLICKED(IDC_VIEW_BNT, &CPhantomBigDlg::OnBnClickedViewBnt)
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_INIT_POSITION, &CPhantomBigDlg::OnBnClickedInitPosition)
 END_MESSAGE_MAP()
 
 
@@ -262,4 +263,11 @@ void CPhantomBigDlg::OnDestroy()
 
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 	View_thread.join();
+}
+
+
+void CPhantomBigDlg::OnBnClickedInitPosition()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	positioning_flag = true;
 }
