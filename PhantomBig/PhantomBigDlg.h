@@ -52,4 +52,5 @@ public:
 	afx_msg void OnBnClickedPhantomBnt();
 	afx_msg void OnBnClickedViewBnt();
 	afx_msg void OnDestroy();
+	afx_msg void OnBnClickedSetPosition();
 };

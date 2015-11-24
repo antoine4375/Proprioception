@@ -67,6 +67,7 @@ BEGIN_MESSAGE_MAP(CPhantomBigDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_PHANTOM_BNT, &CPhantomBigDlg::OnBnClickedPhantomBnt)
 	ON_BN_CLICKED(IDC_VIEW_BNT, &CPhantomBigDlg::OnBnClickedViewBnt)
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_SET_POSITION, &CPhantomBigDlg::OnBnClickedSetPosition)
 END_MESSAGE_MAP()
 
 
@@ -242,11 +243,8 @@ void CPhantomBigDlg::OnDestroy()
 	View_thread.join();
 }
 
-// void CPhantomBigDlg::LogData()
-// {
-// 	std::ostringstream outstream;
-// 	outstream << target_count << " ";
-// 	for (int i = 0; i < 3; ++i)	outstream << mst.position[i] << " "; 
-// 	std::string str = outstream.str();
-// 	log_data.writeLog(str);
-// }
+void CPhantomBigDlg::OnBnClickedSetPosition()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	positioning_flag = true;
+}

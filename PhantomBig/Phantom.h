@@ -36,8 +36,10 @@ PACK mst;
 
 bool first_bnt;
 bool button_flag;
+bool positioning_flag;
 int target_count;
 int routine_count;
+double init_positioning[3];
 
 HDCallbackCode HDCALLBACK DeviceCalibrate(void *pUserData);
 HDCallbackCode HDCALLBACK PhantomDevice(void *pUserData);
@@ -71,8 +73,13 @@ void Omni_Init(void)
     Phantom_Started = false;
     first_bnt = false;
     button_flag = false;
+	positioning_flag = false;
     target_count = 0;
     routine_count = 1;
+
+	init_positioning[0] = -400;
+	init_positioning[1] = 200;
+	init_positioning[2] = -250;
 }
 
 void Omni_Calibrate(void)
@@ -132,6 +139,7 @@ inline void Phantom1(){
 			if (!first_bnt)
 			{
 				first_bnt = true;
+				positioning_flag = false;
 				for (int i = 0; i < 3; ++i)	init_position[i] = mst.prev[i];
 			}
 		}
@@ -165,10 +173,17 @@ inline void Phantom1(){
 		}
 	}
 
-	mst.force[2] = -K_FEEDBACK*mst.position[2];
-
 	if (first_bnt)
 	{
+		mst.force[0] = 0;
+		mst.force[1] = 0;
+		mst.force[2] = -K_FEEDBACK*mst.position[2];
+		hdSetDoublev(HD_CURRENT_FORCE, mst.force);
+	}else if(positioning_flag)
+	{
+		mst.force[0] = K_FEEDBACK*(init_positioning[0]-mst.position[0]);
+		mst.force[1] = K_FEEDBACK*(init_positioning[1]-mst.position[1]);
+		mst.force[2] = K_FEEDBACK*(init_positioning[2]-mst.position[2]);
 		hdSetDoublev(HD_CURRENT_FORCE, mst.force);
 	}
 
