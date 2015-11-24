@@ -66,6 +66,7 @@ BEGIN_MESSAGE_MAP(CPhantomBigDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_PHANTOM_BNT, &CPhantomBigDlg::OnBnClickedPhantomBnt)
 	ON_BN_CLICKED(IDC_VIEW_BNT, &CPhantomBigDlg::OnBnClickedViewBnt)
+	ON_BN_CLICKED(IDC_BUTTON1, &CPhantomBigDlg::OnBnClickedButton1)
 	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
@@ -261,4 +262,11 @@ void CPhantomBigDlg::LogData()
 	for (int i = 0; i < 3; ++i)	outstream << mst.position[i] << " "; 
 	std::string str = outstream.str();
 	log_data.writeLog(str);
+}
+
+void CPhantomBigDlg::OnBnClickedButton1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	positioning_flag = true;
+
 }
