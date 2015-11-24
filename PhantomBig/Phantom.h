@@ -163,8 +163,6 @@ inline void Phantom1(){
 		hdSetDoublev(HD_CURRENT_FORCE, mst.force);
 	}
 
-	
-
 	hdEndFrame(hdGetCurrentDevice());
 }
 
