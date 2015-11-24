@@ -198,7 +198,7 @@ void CPhantomBigDlg::View_routine(void)
 			}
 			pt1.x = 400*cos(theta);		pt1.y = 400*sin(theta);
 
-			for (int j = 0; j <= 500; ++j)
+			for (int j = 1; j <= 500; ++j)
 			{
 				std::ostringstream outstream;
 				pt2.x = 500 + pt1.x*0.002*j;	pt2.y = 500 + pt1.y*0.002*j;
