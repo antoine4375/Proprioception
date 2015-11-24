@@ -220,9 +220,18 @@ void CPhantomBigDlg::View_routine(void)
 		}
 		else
 		{
-			pt2.x = 500 + mst.position[0]*2;	pt2.y = 500 - mst.position[1]*2;
 			cvZero (img);
-			cvCircle(img, pt2, 10, CV_RGB(0,255,0));
+			//pt2.x = 500 + mst.position[0]*2;	pt2.y = 500 - mst.position[1]*2;
+			if (mst.position[0] > -30 && mst.position[0] < 30)
+			{
+				if (mst.position[1] > -30 && mst.position[1] < 30)
+				{
+					pt2.x = mst.position[0]+500;
+					pt2.y = -mst.position[1]+500;
+					cvCircle(img, pt2, 10, CV_RGB(0,255,0));
+				}
+			}
+
 			cvCircle(img, center, 10, CV_RGB(255,0,0));
 			cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
 			cvShowImage ("Drawing", img);
