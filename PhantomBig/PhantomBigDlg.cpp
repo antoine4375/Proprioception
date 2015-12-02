@@ -105,6 +105,10 @@ BOOL CPhantomBigDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 작은 아이콘을 설정합니다.
 
 	// TODO: 여기에 추가 초기화 작업을 추가합니다.
+	prevx = 0;
+	prevy = 0;
+	cx=0;
+	cy=0;
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -174,22 +178,46 @@ void CPhantomBigDlg::View_routine(void)
 	center.x = 500;	center.y = 500;
 
 	double pi = 3.14159265359;
+	double temp;
 	while(1)
 	{
 		if (animation_flag)
 		{
 			pt1.x = 500;	pt1.y = 500;
+
 			srand((unsigned)time(NULL));
 			while(1)
 			{
-				theta = (rand() % 360)*pi/360;
+				irandom = rand() % 16 + 1;
+				switch(irandom)
+				{
+					case 1:	theta = 0;					break; 	// 0 deg
+					case 2:	theta = 0.7853981633974483;	break;	// 45 deg
+					case 3:	theta = 1.570796326794897; 	break; 	// 90 deg
+					case 4:	theta =	2.356194490192345;	break; 	// 135 deg
+					case 5:	theta = 3.141592653589793;	break; 	// 180 deg
+					case 6:	theta = 3.926990816987241;	break; 	// 225 deg
+					case 7:	theta =	4.71238898038469;	break; 	// 270 deg
+					case 8:	theta = 5.497787143782138;	break; 	// 315 deg
+					case 9: theta = 22.5*pi/180;		break;
+					case 10: theta = 67.5*pi/180;		break;
+					case 11: theta = 112.5*pi/180;		break;
+					case 12: theta = 157.5*pi/180;		break;
+					case 13: theta = 202.5*pi/180;		break;
+					case 14: theta = 247.5*pi/180;		break;
+					case 15: theta = 292.5*pi/180;		break;
+					case 16: theta = 337.5*pi/180;		break;
+					default:
+					break;
+				}
+
 				cx = prevx + 400*cos(theta);		cy = prevy + 400*sin(theta);
+
 				if (sqrt(cx*cx + cy*cy) <= 400)
 				{
 					break;
 				}
 			}
-
 			for (int j = 1; j < 501; ++j)
 			{
 				std::ostringstream outstream;
@@ -217,7 +245,7 @@ void CPhantomBigDlg::View_routine(void)
 		else
 		{
 			cvZero (img);
-			pt2.x = 500 + mst.position[0]*3;	pt2.y = 500 - mst.position[1]*3;
+			pt2.x = 500 + mst.position[0]*2.5;	pt2.y = 500 - mst.position[1]*2.5;
 
 			sprintf(buff, "c:%d",target_count);
 			cvPutText(img, buff,cvPoint(100,50),&font, CV_RGB(255,0,0));
