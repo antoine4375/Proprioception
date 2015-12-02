@@ -7,6 +7,8 @@
 #include "PhantomBigDlg.h"
 #include "afxdialogex.h"
 #include "Phantom.h"
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -173,60 +175,54 @@ void CPhantomBigDlg::View_routine(void)
 		if (animation_flag)
 		{
 			pt1.x = 500;	pt1.y = 500;
-			switch(target_count)
+			srand((unsigned)time(NULL));
+			while(1)
 			{
-				case 1: theta = 22.5*pi/180;		break;
-				case 2: theta = 67.5*pi/180;		break;
-				case 3: theta = 112.5*pi/180;		break;
-				case 4: theta = 157.5*pi/180;		break;
-				case 5: theta = 202.5*pi/180;		break;
-				case 6: theta = 247.5*pi/180;		break;
-				case 7: theta = 292.5*pi/180;		break;
-				case 8: theta = 337.5*pi/180;		break;
-				
-				default:
-				break;
+				theta = (rand() % 360)*pi/360;
+				cx = prevx + 400*cos(theta);		cy = prevy + 400*sin(theta);
+				if (sqrt(cx*cx + cy*cy) <= 400)
+				{
+					break;
+				}
 			}
-			pt1.x = 400*cos(theta);		pt1.y = 400*sin(theta);
 
-			for (int j = 1; j <= 500; ++j)
+			for (int j = 1; j < 501; ++j)
 			{
 				std::ostringstream outstream;
-				pt2.x = 500 + pt1.x*0.002*j;	pt2.y = 500 + pt1.y*0.002*j;
+				pt2.x = 500+prevx-(prevx-cx)*0.002*j;	pt2.y = 500+prevy-(prevy-cy)*0.002*j;
 				outstream << target_count << " ";
 				outstream << pt2.x << " "; 
-				outstream << 500 - pt1.y*0.002*j << " "; 
-				for (int i = 0; i < 3; ++i)	outstream << 500 + mst.position[i]*2 << " "; 
+				outstream << 500 - (prevy-(prevy-cy)*0.002*j) << " "; 
+				for (int i = 0; i < 3; ++i)	outstream << 500 + mst.position[i]*3 << " "; 
 				std::string str = outstream.str();
 				log_data.writeLog(str);
 
 				cvZero (img);
 				cvCircle(img, pt2, 10, CV_RGB(0,255,0));
 				cvCircle(img, center, 10, CV_RGB(0,0,255));
+
 				cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
 				cvShowImage ("Drawing", img);
-				cvWaitKey (5);
+				cvWaitKey (10);
 			}
+			center.x = 500+prevx-(prevx-cx);
+			center.y = 500+prevy-(prevy-cy);
+			prevx = cx; 	prevy = cy;
 			animation_flag = false;
 		}
 		else
 		{
 			cvZero (img);
-			//pt2.x = 500 + mst.position[0]*2;	pt2.y = 500 - mst.position[1]*2;
-			if (mst.position[0] > -30 && mst.position[0] < 30)
-			{
-				if (mst.position[1] > -30 && mst.position[1] < 30)
-				{
-					pt2.x = mst.position[0]+500;
-					pt2.y = -mst.position[1]+500;
-					cvCircle(img, pt2, 10, CV_RGB(0,255,0));
-				}
-			}
+			pt2.x = 500 + mst.position[0]*3;	pt2.y = 500 - mst.position[1]*3;
 
+			sprintf(buff, "c:%d",target_count);
+			cvPutText(img, buff,cvPoint(100,50),&font, CV_RGB(255,0,0));
+			
+			cvCircle(img, pt2, 10, CV_RGB(0,255,0));
 			cvCircle(img, center, 10, CV_RGB(255,0,0));
 			cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
 			cvShowImage ("Drawing", img);
-			cvWaitKey (10);
+			cvWaitKey (100);
 		}
 	}
 }
