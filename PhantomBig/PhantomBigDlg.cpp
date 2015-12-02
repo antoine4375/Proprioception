@@ -165,6 +165,10 @@ void CPhantomBigDlg::View_routine(void)
 	CvPoint pt1,pt2,center;
 	int irandom;
 	double theta;
+	char buff[100];
+	CvFont font;
+	
+	cvInitFont(&font, CV_FONT_HERSHEY_TRIPLEX, 1, 1);
 
 	img = cvCreateImage (cvSize (1000, 1000), IPL_DEPTH_8U, 3);
 	center.x = 500;	center.y = 500;
