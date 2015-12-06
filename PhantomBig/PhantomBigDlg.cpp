@@ -70,6 +70,7 @@ BEGIN_MESSAGE_MAP(CPhantomBigDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_VIEW_BNT, &CPhantomBigDlg::OnBnClickedViewBnt)
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_BUTTON1, &CPhantomBigDlg::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &CPhantomBigDlg::OnBnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -109,6 +110,8 @@ BOOL CPhantomBigDlg::OnInitDialog()
 	prevy = 0;
 	cx=0;
 	cy=0;
+
+	guide_flag = false;
 
 	return TRUE;  // 포커스를 컨트롤에 설정하지 않으면 TRUE를 반환합니다.
 }
@@ -183,6 +186,7 @@ void CPhantomBigDlg::View_routine(void)
 	{
 		if (animation_flag)
 		{
+			guide_flag = false;
 			pt1.x = 500;	pt1.y = 500;
 
 			srand((unsigned)time(NULL));
@@ -250,7 +254,9 @@ void CPhantomBigDlg::View_routine(void)
 			sprintf(buff, "c:%d",target_count);
 			cvPutText(img, buff,cvPoint(100,50),&font, CV_RGB(255,0,0));
 			
-			cvCircle(img, pt2, 10, CV_RGB(0,255,0));
+			if(guide_flag)
+				cvCircle(img, pt2, 10, CV_RGB(0,255,0));
+			
 			cvCircle(img, center, 10, CV_RGB(255,0,0));
 			cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
 			cvShowImage ("Drawing", img);
@@ -296,4 +302,11 @@ void CPhantomBigDlg::OnBnClickedButton1()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	positioning_flag = true;
+}
+
+
+void CPhantomBigDlg::OnBnClickedButton2()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	guide_flag = true;
 }

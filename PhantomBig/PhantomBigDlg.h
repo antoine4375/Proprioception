@@ -36,6 +36,7 @@ public:
 
 	double prevx,prevy;
 	double cx,cy;
+	bool guide_flag;
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 지원입니다.
@@ -56,4 +57,5 @@ public:
 	afx_msg void OnBnClickedViewBnt();
 	afx_msg void OnDestroy();
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton2();
 };

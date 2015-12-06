@@ -137,10 +137,7 @@ inline void Phantom1(){
 
 			animation_flag = true;
 			target_count++;
-			if (target_count > 8)
-			{
-				target_count = 1;
-			}
+			
 			if (!first_bnt)
 			{
 				first_bnt = true;
