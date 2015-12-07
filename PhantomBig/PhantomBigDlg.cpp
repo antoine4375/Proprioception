@@ -1,5 +1,5 @@
 
-// PhantomBigDlg.cpp : ±¸Çö ÆÄÀÏ
+// PhantomBigDlg.cpp : Â±Â¸Ã‡Ã¶ Ã†Ã„Ã€Ã
 //
 
 #include "stdafx.h"
@@ -10,25 +10,29 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 
+#include <math.h>
+
+// #define ROUNDING(x, dig)    ( floor((x) * pow(float(10), dig) + 0.5f) â„ pow(float(10), dig) )
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 
-// ÀÀ¿ë ÇÁ·Î±×·¥ Á¤º¸¿¡ »ç¿ëµÇ´Â CAboutDlg ´ëÈ­ »óÀÚÀÔ´Ï´Ù.
+// Ã€Ã€Â¿Ã« Ã‡ÃÂ·ÃÂ±Ã—Â·Â¥ ÃÂ¤ÂºÂ¸Â¿Â¡ Â»Ã§Â¿Ã«ÂµÃ‡Â´Ã‚ CAboutDlg Â´Ã«ÃˆÂ­ Â»Ã³Ã€ÃšÃ€Ã”Â´ÃÂ´Ã™.
 
 class CAboutDlg : public CDialogEx
 {
 public:
 	CAboutDlg();
 
-// ´ëÈ­ »óÀÚ µ¥ÀÌÅÍÀÔ´Ï´Ù.
+// Â´Ã«ÃˆÂ­ Â»Ã³Ã€Ãš ÂµÂ¥Ã€ÃŒÃ…ÃÃ€Ã”Â´ÃÂ´Ã™.
 	enum { IDD = IDD_ABOUTBOX };
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Áö¿øÀÔ´Ï´Ù.
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV ÃÃ¶Â¿Ã¸Ã€Ã”Â´ÃÂ´Ã™.
 
-// ±¸ÇöÀÔ´Ï´Ù.
+// Â±Â¸Ã‡Ã¶Ã€Ã”Â´ÃÂ´Ã™.
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -46,7 +50,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CPhantomBigDlg ´ëÈ­ »óÀÚ
+// CPhantomBigDlg Â´Ã«ÃˆÂ­ Â»Ã³Ã€Ãš
 
 
 
@@ -74,15 +78,15 @@ BEGIN_MESSAGE_MAP(CPhantomBigDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CPhantomBigDlg ¸Ş½ÃÁö Ã³¸®±â
+// CPhantomBigDlg Â¸ÃÂ½ÃƒÃÃ¶ ÃƒÂ³Â¸Â®Â±Ã¢
 
 BOOL CPhantomBigDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// ½Ã½ºÅÛ ¸Ş´º¿¡ "Á¤º¸..." ¸Ş´º Ç×¸ñÀ» Ãß°¡ÇÕ´Ï´Ù.
+	// Â½ÃƒÂ½ÂºÃ…Ã› Â¸ÃÂ´ÂºÂ¿Â¡ "ÃÂ¤ÂºÂ¸..." Â¸ÃÂ´Âº Ã‡Ã—Â¸Ã±Ã€Â» ÃƒÃŸÂ°Â¡Ã‡Ã•Â´ÃÂ´Ã™.
 
-	// IDM_ABOUTBOX´Â ½Ã½ºÅÛ ¸í·É ¹üÀ§¿¡ ÀÖ¾î¾ß ÇÕ´Ï´Ù.
+	// IDM_ABOUTBOXÂ´Ã‚ Â½ÃƒÂ½ÂºÃ…Ã› Â¸Ã­Â·Ã‰ Â¹Ã¼Ã€Â§Â¿Â¡ Ã€Ã–Â¾Ã®Â¾ÃŸ Ã‡Ã•Â´ÃÂ´Ã™.
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -100,12 +104,12 @@ BOOL CPhantomBigDlg::OnInitDialog()
 		}
 	}
 
-	// ÀÌ ´ëÈ­ »óÀÚÀÇ ¾ÆÀÌÄÜÀ» ¼³Á¤ÇÕ´Ï´Ù. ÀÀ¿ë ÇÁ·Î±×·¥ÀÇ ÁÖ Ã¢ÀÌ ´ëÈ­ »óÀÚ°¡ ¾Æ´Ò °æ¿ì¿¡´Â
-	//  ÇÁ·¹ÀÓ¿öÅ©°¡ ÀÌ ÀÛ¾÷À» ÀÚµ¿À¸·Î ¼öÇàÇÕ´Ï´Ù.
-	SetIcon(m_hIcon, TRUE);			// Å« ¾ÆÀÌÄÜÀ» ¼³Á¤ÇÕ´Ï´Ù.
-	SetIcon(m_hIcon, FALSE);		// ÀÛÀº ¾ÆÀÌÄÜÀ» ¼³Á¤ÇÕ´Ï´Ù.
+	// Ã€ÃŒ Â´Ã«ÃˆÂ­ Â»Ã³Ã€ÃšÃ€Ã‡ Â¾Ã†Ã€ÃŒÃ„ÃœÃ€Â» Â¼Â³ÃÂ¤Ã‡Ã•Â´ÃÂ´Ã™. Ã€Ã€Â¿Ã« Ã‡ÃÂ·ÃÂ±Ã—Â·Â¥Ã€Ã‡ ÃÃ– ÃƒÂ¢Ã€ÃŒ Â´Ã«ÃˆÂ­ Â»Ã³Ã€ÃšÂ°Â¡ Â¾Ã†Â´Ã’ Â°Ã¦Â¿Ã¬Â¿Â¡Â´Ã‚
+	//  Ã‡ÃÂ·Â¹Ã€Ã“Â¿Ã¶Ã…Â©Â°Â¡ Ã€ÃŒ Ã€Ã›Â¾Ã·Ã€Â» Ã€ÃšÂµÂ¿Ã€Â¸Â·Ã Â¼Ã¶Ã‡Ã Ã‡Ã•Â´ÃÂ´Ã™.
+	SetIcon(m_hIcon, TRUE);			// Ã…Â« Â¾Ã†Ã€ÃŒÃ„ÃœÃ€Â» Â¼Â³ÃÂ¤Ã‡Ã•Â´ÃÂ´Ã™.
+	SetIcon(m_hIcon, FALSE);		// Ã€Ã›Ã€Âº Â¾Ã†Ã€ÃŒÃ„ÃœÃ€Â» Â¼Â³ÃÂ¤Ã‡Ã•Â´ÃÂ´Ã™.
 
-	// TODO: ¿©±â¿¡ Ãß°¡ ÃÊ±âÈ­ ÀÛ¾÷À» Ãß°¡ÇÕ´Ï´Ù.
+	// TODO: Â¿Â©Â±Ã¢Â¿Â¡ ÃƒÃŸÂ°Â¡ ÃƒÃŠÂ±Ã¢ÃˆÂ­ Ã€Ã›Â¾Ã·Ã€Â» ÃƒÃŸÂ°Â¡Ã‡Ã•Â´ÃÂ´Ã™.
 	prevx = 0;
 	prevy = 0;
 	cx=0;
@@ -113,7 +117,7 @@ BOOL CPhantomBigDlg::OnInitDialog()
 
 	guide_flag = false;
 
-	return TRUE;  // Æ÷Ä¿½º¸¦ ÄÁÆ®·Ñ¿¡ ¼³Á¤ÇÏÁö ¾ÊÀ¸¸é TRUE¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+	return TRUE;  // Ã†Ã·Ã„Â¿Â½ÂºÂ¸Â¦ Ã„ÃÃ†Â®Â·Ã‘Â¿Â¡ Â¼Â³ÃÂ¤Ã‡ÃÃÃ¶ Â¾ÃŠÃ€Â¸Â¸Ã© TRUEÂ¸Â¦ Â¹ÃÃˆÂ¯Ã‡Ã•Â´ÃÂ´Ã™.
 }
 
 void CPhantomBigDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -129,19 +133,19 @@ void CPhantomBigDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// ´ëÈ­ »óÀÚ¿¡ ÃÖ¼ÒÈ­ ´ÜÃß¸¦ Ãß°¡ÇÒ °æ¿ì ¾ÆÀÌÄÜÀ» ±×¸®·Á¸é
-//  ¾Æ·¡ ÄÚµå°¡ ÇÊ¿äÇÕ´Ï´Ù. ¹®¼­/ºä ¸ğµ¨À» »ç¿ëÇÏ´Â MFC ÀÀ¿ë ÇÁ·Î±×·¥ÀÇ °æ¿ì¿¡´Â
-//  ÇÁ·¹ÀÓ¿öÅ©¿¡¼­ ÀÌ ÀÛ¾÷À» ÀÚµ¿À¸·Î ¼öÇàÇÕ´Ï´Ù.
+// Â´Ã«ÃˆÂ­ Â»Ã³Ã€ÃšÂ¿Â¡ ÃƒÃ–Â¼Ã’ÃˆÂ­ Â´ÃœÃƒÃŸÂ¸Â¦ ÃƒÃŸÂ°Â¡Ã‡Ã’ Â°Ã¦Â¿Ã¬ Â¾Ã†Ã€ÃŒÃ„ÃœÃ€Â» Â±Ã—Â¸Â®Â·ÃÂ¸Ã©
+//  Â¾Ã†Â·Â¡ Ã„ÃšÂµÃ¥Â°Â¡ Ã‡ÃŠÂ¿Ã¤Ã‡Ã•Â´ÃÂ´Ã™. Â¹Â®Â¼Â­/ÂºÃ¤ Â¸Ã°ÂµÂ¨Ã€Â» Â»Ã§Â¿Ã«Ã‡ÃÂ´Ã‚ MFC Ã€Ã€Â¿Ã« Ã‡ÃÂ·ÃÂ±Ã—Â·Â¥Ã€Ã‡ Â°Ã¦Â¿Ã¬Â¿Â¡Â´Ã‚
+//  Ã‡ÃÂ·Â¹Ã€Ã“Â¿Ã¶Ã…Â©Â¿Â¡Â¼Â­ Ã€ÃŒ Ã€Ã›Â¾Ã·Ã€Â» Ã€ÃšÂµÂ¿Ã€Â¸Â·Ã Â¼Ã¶Ã‡Ã Ã‡Ã•Â´ÃÂ´Ã™.
 
 void CPhantomBigDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // ±×¸®±â¸¦ À§ÇÑ µğ¹ÙÀÌ½º ÄÁÅØ½ºÆ®ÀÔ´Ï´Ù.
+		CPaintDC dc(this); // Â±Ã—Â¸Â®Â±Ã¢Â¸Â¦ Ã€Â§Ã‡Ã‘ ÂµÃ°Â¹Ã™Ã€ÃŒÂ½Âº Ã„ÃÃ…Ã˜Â½ÂºÃ†Â®Ã€Ã”Â´ÃÂ´Ã™.
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Å¬¶óÀÌ¾ğÆ® »ç°¢Çü¿¡¼­ ¾ÆÀÌÄÜÀ» °¡¿îµ¥¿¡ ¸ÂÃä´Ï´Ù.
+		// Ã…Â¬Â¶Ã³Ã€ÃŒÂ¾Ã°Ã†Â® Â»Ã§Â°Â¢Ã‡Ã¼Â¿Â¡Â¼Â­ Â¾Ã†Ã€ÃŒÃ„ÃœÃ€Â» Â°Â¡Â¿Ã®ÂµÂ¥Â¿Â¡ Â¸Ã‚ÃƒÃ¤Â´ÃÂ´Ã™.
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -149,7 +153,7 @@ void CPhantomBigDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// ¾ÆÀÌÄÜÀ» ±×¸³´Ï´Ù.
+		// Â¾Ã†Ã€ÃŒÃ„ÃœÃ€Â» Â±Ã—Â¸Â³Â´ÃÂ´Ã™.
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -158,8 +162,8 @@ void CPhantomBigDlg::OnPaint()
 	}
 }
 
-// »ç¿ëÀÚ°¡ ÃÖ¼ÒÈ­µÈ Ã¢À» ²ô´Â µ¿¾È¿¡ Ä¿¼­°¡ Ç¥½ÃµÇµµ·Ï ½Ã½ºÅÛ¿¡¼­
-//  ÀÌ ÇÔ¼ö¸¦ È£ÃâÇÕ´Ï´Ù.
+// Â»Ã§Â¿Ã«Ã€ÃšÂ°Â¡ ÃƒÃ–Â¼Ã’ÃˆÂ­ÂµÃˆ ÃƒÂ¢Ã€Â» Â²Ã´Â´Ã‚ ÂµÂ¿Â¾ÃˆÂ¿Â¡ Ã„Â¿Â¼Â­Â°Â¡ Ã‡Â¥Â½ÃƒÂµÃ‡ÂµÂµÂ·Ã Â½ÃƒÂ½ÂºÃ…Ã›Â¿Â¡Â¼Â­
+//  Ã€ÃŒ Ã‡Ã”Â¼Ã¶Â¸Â¦ ÃˆÂ£ÃƒÃ¢Ã‡Ã•Â´ÃÂ´Ã™.
 HCURSOR CPhantomBigDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -173,6 +177,7 @@ void CPhantomBigDlg::View_routine(void)
 	int irandom;
 	double theta;
 	char buff[100];
+	int array_i=0;
 	CvFont font;
 	
 	cvInitFont(&font, CV_FONT_HERSHEY_TRIPLEX, 1, 1);
@@ -181,93 +186,116 @@ void CPhantomBigDlg::View_routine(void)
 	center.x = 500;	center.y = 500;
 
 	double pi = 3.14159265359;
-	double temp;
+	int temp = delay_count+1;
+	double distance=0.0;
+	double c_theta=0;
+	theta = 0;
 	while(1)
 	{
-		if (animation_flag)
+		if (target_count != 0)
 		{
-			guide_flag = false;
-			pt1.x = 500;	pt1.y = 500;
-
-			srand((unsigned)time(NULL));
-			while(1)
+			switch(target_count)
 			{
-				irandom = rand() % 16 + 1;
-				switch(irandom)
-				{
-					case 1:	theta = 0;					break; 	// 0 deg
-					case 2:	theta = 0.7853981633974483;	break;	// 45 deg
-					case 3:	theta = 1.570796326794897; 	break; 	// 90 deg
-					case 4:	theta =	2.356194490192345;	break; 	// 135 deg
-					case 5:	theta = 3.141592653589793;	break; 	// 180 deg
-					case 6:	theta = 3.926990816987241;	break; 	// 225 deg
-					case 7:	theta =	4.71238898038469;	break; 	// 270 deg
-					case 8:	theta = 5.497787143782138;	break; 	// 315 deg
-					case 9: theta = 22.5*pi/180;		break;
-					case 10: theta = 67.5*pi/180;		break;
-					case 11: theta = 112.5*pi/180;		break;
-					case 12: theta = 157.5*pi/180;		break;
-					case 13: theta = 202.5*pi/180;		break;
-					case 14: theta = 247.5*pi/180;		break;
-					case 15: theta = 292.5*pi/180;		break;
-					case 16: theta = 337.5*pi/180;		break;
-					default:
-					break;
-				}
+				// case 1:	theta = 0;					break; 	// 0 deg
+				case 1:	theta = 0.7853981633974483;	break;	// 45 deg
+				// case 3:	theta = 1.570796326794897; 	break; 	// 90 deg
+				case 3:	theta =	2.356194490192345;	break; 	// 135 deg
+				// case 5:	theta = 3.141592653589793;	break; 	// 180 deg
+				case 5:	theta = 3.926990816987241;	break; 	// 225 deg
+				// case 7:	theta =	4.71238898038469;	break; 	// 270 deg
+				case 7:	theta = 5.497787143782138;	break; 	// 315 deg
+				default:
 
-				cx = prevx + 400*cos(theta);		cy = prevy + 400*sin(theta);
-
-				if (sqrt(cx*cx + cy*cy) <= 400)
-				{
-					break;
-				}
+				break;
 			}
-			for (int j = 1; j < 501; ++j)
-			{
-				std::ostringstream outstream;
-				pt2.x = 500+prevx-(prevx-cx)*0.002*j;	pt2.y = 500+prevy-(prevy-cy)*0.002*j;
-				outstream << target_count << " ";
-				outstream << pt2.x << " "; 
-				outstream << 500 - (prevy-(prevy-cy)*0.002*j) << " "; 
-				for (int i = 0; i < 3; ++i)	outstream << 500 + mst.position[i]*3 << " "; 
-				std::string str = outstream.str();
-				log_data.writeLog(str);
-
-				cvZero (img);
-				cvCircle(img, pt2, 10, CV_RGB(0,255,0));
-				cvCircle(img, center, 10, CV_RGB(0,0,255));
-
-				cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
-				cvShowImage ("Drawing", img);
-				cvWaitKey (10);
-			}
-			center.x = 500+prevx-(prevx-cx);
-			center.y = 500+prevy-(prevy-cy);
-			prevx = cx; 	prevy = cy;
-			animation_flag = false;
 		}
-		else
+		
+		if(guide_flag)
 		{
-			cvZero (img);
-			pt2.x = 500 + mst.position[0]*2.5;	pt2.y = 500 - mst.position[1]*2.5;
+			temp = delay_count+1;
+			if (temp > 999)		temp = 0;
+			array_i = floor((atan2(delay_data[1][temp],delay_data[0][temp])+pi)*(180/pi)+0.5);
+			if (array_i == 360)		array_i = 0;
 
-			sprintf(buff, "c:%d",target_count);
-			cvPutText(img, buff,cvPoint(100,50),&font, CV_RGB(255,0,0));
-			
-			if(guide_flag)
-				cvCircle(img, pt2, 10, CV_RGB(0,255,0));
-			
-			cvCircle(img, center, 10, CV_RGB(255,0,0));
-			cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
-			cvShowImage ("Drawing", img);
-			cvWaitKey (100);
+			distance = sqrt(delay_data[1][temp]*delay_data[1][temp]+delay_data[0][temp]*delay_data[0][temp]);
+			c_theta = atan2(delay_data[1][temp],delay_data[0][temp])+pi;
+		
+			pt2.x = 500-distance*cos(c_theta+carray[array_i])*2;
+			pt2.y = 500+distance*sin(c_theta+carray[array_i])*2;
+			if (target_count == 0) {
+				pt1.x = 500;pt1.y = 500;
+			}
+			else{
+				pt1.x = 500+400*cos(theta);		pt1.y = 500+400*sin(theta);
+			}
 		}
+		else {
+			temp = delay_count+1;
+			if (temp > 999)		temp = 0;
+			pt2.x = 500 + delay_data[0][temp]*2;	pt2.y = 500 - delay_data[1][temp]*2;
+			if (target_count == 0) {
+				pt1.x = 500;pt1.y = 500;
+			}
+			else{
+				pt1.x = 500+400*cos(theta);		pt1.y = 500+400*sin(theta);
+			}
+		}	
+
+		if (target_count != 0)
+		{
+			switch(target_count)
+			{
+				case 2:	pt1.x = 500;pt1.y = 500;
+					pt2.x = 500 + mst.position[0]*2;	pt2.y = 500 - mst.position[1]*2;
+				break;	// 45 deg
+				case 4: pt1.x = 500;pt1.y = 500;
+				pt2.x = 500 + mst.position[0]*2;	pt2.y = 500 - mst.position[1]*2;
+				break; 	// 135 deg
+				case 6:	pt1.x = 500;pt1.y = 500;
+				pt2.x = 500 + mst.position[0]*2;	pt2.y = 500 - mst.position[1]*2;
+				break; 	// 225 deg
+				case 8:	pt1.x = 500;pt1.y = 500;
+				pt2.x = 500 + mst.position[0]*2;	pt2.y = 500 - mst.position[1]*2;
+				break; 	// 315 deg
+				default:
+					std::ostringstream outstream;
+					outstream << target_count << " ";
+					if (guide_flag)
+					{
+						outstream << distance*cos(c_theta+carray[array_i])*2 << " ";
+						outstream << distance*sin(c_theta+carray[array_i])*2 << " "; 
+					}
+					else
+					{
+						outstream << delay_data[0][temp]*2 << " ";
+						outstream << delay_data[1][temp]*2 << " "; 
+					}
+					std::string str = outstream.str();
+					log_data.writeLog(str);
+				break;
+			}
+		}
+		
+		cvZero (img);
+		sprintf(buff, "c:%d",target_count);
+		cvPutText(img, buff,cvPoint(100,50),&font, CV_RGB(255,0,0));
+		sprintf(buff, "c:%f",c_theta*180/pi);
+		cvPutText(img, buff,cvPoint(100,100),&font, CV_RGB(255,0,0));
+		sprintf(buff, "c:%d",array_i);
+		cvPutText(img, buff,cvPoint(100,150),&font, CV_RGB(255,0,0));
+		
+		cvCircle(img, pt2, 10, CV_RGB(0,255,0));
+		
+		cvCircle(img, pt1, 10, CV_RGB(255,0,0));
+		cvNamedWindow ("Drawing", CV_WINDOW_AUTOSIZE);
+		cvShowImage ("Drawing", img);
+		cvWaitKey (50);
 	}
 }
 
 void CPhantomBigDlg::OnBnClickedPhantomBnt()
 {
-	// TODO: ¿©±â¿¡ ÄÁÆ®·Ñ ¾Ë¸² Ã³¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
+	// TODO: Â¿Â©Â±Ã¢Â¿Â¡ Ã„ÃÃ†Â®Â·Ã‘ Â¾Ã‹Â¸Â² ÃƒÂ³Â¸Â®Â±Ã¢ Ã„ÃšÂµÃ¥Â¸Â¦ ÃƒÃŸÂ°Â¡Ã‡Ã•Â´ÃÂ´Ã™.
 	Omni_Init();
 	Omni_Calibrate();
 	Omni_Start();
@@ -276,7 +304,7 @@ void CPhantomBigDlg::OnBnClickedPhantomBnt()
 
 void CPhantomBigDlg::OnBnClickedViewBnt()
 {
-	// TODO: ¿©±â¿¡ ÄÁÆ®·Ñ ¾Ë¸² Ã³¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
+	// TODO: Â¿Â©Â±Ã¢Â¿Â¡ Ã„ÃÃ†Â®Â·Ã‘ Â¾Ã‹Â¸Â² ÃƒÂ³Â¸Â®Â±Ã¢ Ã„ÃšÂµÃ¥Â¸Â¦ ÃƒÃŸÂ°Â¡Ã‡Ã•Â´ÃÂ´Ã™.
 	View_thread = boost::thread(&CPhantomBigDlg::View_routine,this);
 }
 
@@ -285,7 +313,7 @@ void CPhantomBigDlg::OnDestroy()
 {
 	CDialogEx::OnDestroy();
 
-	// TODO: ¿©±â¿¡ ¸Ş½ÃÁö Ã³¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
+	// TODO: Â¿Â©Â±Ã¢Â¿Â¡ Â¸ÃÂ½ÃƒÃÃ¶ ÃƒÂ³Â¸Â®Â±Ã¢ Ã„ÃšÂµÃ¥Â¸Â¦ ÃƒÃŸÂ°Â¡Ã‡Ã•Â´ÃÂ´Ã™.
 	View_thread.join();
 }
 
@@ -300,13 +328,13 @@ void CPhantomBigDlg::LogData()
 
 void CPhantomBigDlg::OnBnClickedButton1()
 {
-	// TODO: ¿©±â¿¡ ÄÁÆ®·Ñ ¾Ë¸² Ã³¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
+	// TODO: Â¿Â©Â±Ã¢Â¿Â¡ Ã„ÃÃ†Â®Â·Ã‘ Â¾Ã‹Â¸Â² ÃƒÂ³Â¸Â®Â±Ã¢ Ã„ÃšÂµÃ¥Â¸Â¦ ÃƒÃŸÂ°Â¡Ã‡Ã•Â´ÃÂ´Ã™.
 	positioning_flag = true;
 }
 
 
 void CPhantomBigDlg::OnBnClickedButton2()
 {
-	// TODO: ¿©±â¿¡ ÄÁÆ®·Ñ ¾Ë¸² Ã³¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
-	guide_flag = true;
+	// TODO: Â¿Â©Â±Ã¢Â¿Â¡ Ã„ÃÃ†Â®Â·Ã‘ Â¾Ã‹Â¸Â² ÃƒÂ³Â¸Â®Â±Ã¢ Ã„ÃšÂµÃ¥Â¸Â¦ ÃƒÃŸÂ°Â¡Ã‡Ã•Â´ÃÂ´Ã™.
+	guide_flag = !guide_flag;
 }
